@@ -16,7 +16,7 @@ que deve conter:
 Os requisitos são os seguintes:
 * Escolha uma ferramenta de CI/CD apropriada.
 * Configure um pipeline de build de contêiner docker da aplicação node.
-* Configure um pipeline de deploy contínuo para o aplicativo de demonstração em contêiner
+* Configure um pipeline de deploy contínuo para o aplicação node em contêiner
     * Deve conter pelo menos uma fase de testes e uma fase de deploy.
     * A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
     * Ele deve seguir o fluxo do GitHub flow para o deploy.
