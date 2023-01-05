@@ -35,3 +35,9 @@ Os endpoints são os seguintes:
 
 - Adicionar pipelines para teste lint, e outras coisas a mais na aplicação
 - O deploy de kubernetes tiver interligado com ferramenta de infra as code
+
+## Importante
+
+Nós entendemos se você não tiver uma conta em uma dessas núvens, então faça o seu melhor com
+código de provisionamento escolhido e disponibilize num repositório git, que nós testaremos.
+ 
