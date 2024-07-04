@@ -1,13 +1,13 @@
-import * as pulumi from "@pulumi/pulumi";
-import { createCluster } from "./gcp/cluster";
-import * as gcp from "@pulumi/gcp";
+import * as pulumi from '@pulumi/pulumi';
+import { createCluster } from './gcp/cluster';
+import * as gcp from '@pulumi/gcp';
 
 export class Cluster {
   k8sCluster: pulumi.Output<gcp.container.Cluster>;
 
   constructor(name: string, cloudProvider: string) {
     switch (cloudProvider) {
-      case "gcp":
+      case 'gcp':
         this.k8sCluster = createCluster(name);
         break;
       default:
