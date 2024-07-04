@@ -7,27 +7,22 @@ jest.mock('@pulumi/gcp', () => ({
   container: {
     Cluster: jest.fn(() => ({
       id: 'mock-cluster-id',
-      location: 'us-east',
-      initialNodeCount: 1,
+      location: 'us-central1',
+      initialNodeCount: 3,
     })),
   },
 }));
 
 describe('GKE Cluster', () => {
-  let cluster: gcp.container.Cluster | undefined;
+  let cluster: gcp.container.Cluster;
 
   beforeAll(async () => {
-    const stack = await pulumi.runtime.runInPulumiStack(async () => {
-      const cluster = new Cluster('test-cluster', 'gcp');
-      return {
-        cluster: cluster.k8sCluster,
-      };
-    });
-    if (stack && stack.cluster) {
-      await stack.cluster.apply((c: gcp.container.Cluster) => {
-        cluster = c;
+    await pulumi.runtime.runInPulumiStack(async () => {
+      const clusterInstance = new Cluster('test-cluster', 'gcp');
+      clusterInstance.k8sCluster.apply((c) => {
+        cluster = c as gcp.container.Cluster;
       });
-    }
+    });
   });
 
   it('should create a GKE cluster', () => {
@@ -35,10 +30,10 @@ describe('GKE Cluster', () => {
   });
 
   it('should have the correct node count', () => {
-    expect(cluster?.initialNodeCount).toBe(1);
+    expect(cluster?.initialNodeCount).toBe(3);
   });
 
   it('should have the correct location', () => {
-    expect(cluster?.location).toBe('us-east1');
+    expect(cluster?.location).toBe('us-central1');
   });
 });

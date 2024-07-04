@@ -1,27 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                          // Target latest ECMAScript version
-    "module": "commonjs",                        // CommonJS module system for Node.js
-    "lib": ["ES2020"],                           // Include standard library declarations
-    "allowJs": true,                             // Allow JavaScript files
-    "outDir": "./dist",                          // Output directory
-    "rootDir": "./",                             // Root directory of input files
-    "strict": true,                              // Enable all strict type-checking options
-    "moduleResolution": "node",                  // Resolve modules using Node.js-style resolution
-    "esModuleInterop": true,                     // Emit __importStar and __importDefault helpers for runtime babel/ecmascript interop
-    "skipLibCheck": true,                        // Skip type checking of all declaration files
-    "forceConsistentCasingInFileNames": true,    // Disallow inconsistently-cased references to the same file
-    "resolveJsonModule": true,                   // Include modules imported with `.json` extension
-    "types": ["jest", "node"]                    // Add jest and node types
+    "target": "ES2020", // Target latest ECMAScript version
+    "module": "commonjs", // CommonJS module system for Node.js
+    "lib": ["ES2020"], // Include standard library declarations
+    "allowJs": true, // Allow JavaScript files
+    "outDir": "./dist", // Output directory
+    "rootDir": "./", // Root directory of input files
+    "strict": true, // Enable all strict type-checking options
+    "moduleResolution": "node", // Resolve modules using Node.js-style resolution
+    "esModuleInterop": true, // Emit __importStar and __importDefault helpers for runtime babel/ecmascript interop
+    "skipLibCheck": true, // Skip type checking of all declaration files
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "resolveJsonModule": true, // Include modules imported with `.json` extension
+    "types": ["jest", "node"] // Add jest and node types
   },
   "include": [
-    "pulumi/**/*.ts",
-    "apps/**/*.ts",
-    "jest.config.ts",                            // Include Jest configuration file
-    "__tests__/**/*.ts"                          // Include test files
+    "./**/*.ts",
+    "jest.config.ts", // Include Jest configuration file
+    "__tests__/**/*.ts" // Include test files
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
