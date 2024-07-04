@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  kanastra-dev:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      ssh:
+        - default
+    image: diogoandrade/kanastra:v1
+    secrets:
+      - github-ssh-key
+    container_name: kanastra-dev
+    volumes:
+      - ${PWD}:/app
+    tty: true
+    entrypoint: ['/bin/bash']
+secrets:
+  github-ssh-key:
+    file: ${HOME}/.ssh/id_ed25519

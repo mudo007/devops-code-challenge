@@ -8,6 +8,7 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 - Controle de atividades: Idealmente, eu faria um board no jira com integração entre github para que o ticket tivesse um vínculo para o commit que gerou uma build bem sucedida. Mas para economizar tempo, o controle será por esse readme mesmo, onde o commit de cada etapa terá um link no próprio texto
 - Tagging: Cada etapa (Provisionamento, CI/CD, Aplicação) terá uma tag correspondente MVP_prov, MVP_pipe, MVP_app, coisas bonus serão planejadas e adicionadas após o MVP estar pronto e estar sobrando prazo para a entrega
 - Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
+- Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
 
 ## Provisionamento
 
