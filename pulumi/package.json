@@ -7,7 +7,9 @@
     "test": "jest --config jest.config.ts",
     "lint": "eslint './**/*.ts' --fix",
     "format": "prettier --write './**/*.ts'",
-    "check-format": "prettier --check './**/*.ts'"
+    "check-format": "prettier --check './**/*.ts'",
+    "pulumi:dev-up": "pulumi stack select dev && pulumi up --yes",
+    "pulumi:dev-destroy": "pulumi stack select dev && pulumi destroy --yes"
   },
   "author": "",
   "license": "ISC",

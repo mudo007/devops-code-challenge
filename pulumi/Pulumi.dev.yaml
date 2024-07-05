@@ -1,6 +1,8 @@
+encryptionsalt: v1:1E6nPB6VxiI=:v1:bkCiAzMGJWYt6HNd:zb/H/VLed7fEovLHyglQlRETxWeMjA==
 config:
   cloud:cloudProvider: 'gcp'
-  gcp-cluster:initialNodeCount: 1
-  gcp-cluster:location: 'us-east1'
-  gcp-cluster:minMasterVersion: '1.18'
+  gcp-cluster:initialNodeCount: '1'
   gcp-cluster:machineType: 'e2-micro'
+  gcp-cluster:deletionProtection: false
+  gcp:project: 'kanastra-dev'
+  gcp:region: 'us-east1'

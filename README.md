@@ -1,6 +1,7 @@
 # Code Challenge DevOps Kanastra - Diogo Andrade
 
 Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução é:
+
 - fiz um fork a partir do repo original
 - Cloud escolhida: primeiramente Google Cloud, e AWS reutilizando o projeto ao máximo, se der tempo
 - Ferramentas escolhidas: Pulumi + Typescript, Github Actions, Prettier + ESLint
@@ -14,28 +15,31 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 
 Você precisa nos mostrar uma infraestrutura provisionada usando Infra-as-code (terraform, pulumi, ansible, etc),
 que deve conter:
-* [WIP] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
-* Configure a rede e suas subnets.
-* Configure a segurança usando o princípio de privilégio mínimo.
-* Use uma IAM role para dar as permissões no cluster.
+
+- [WIP] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
+- Configure a rede e suas subnets.
+- Configure a segurança usando o princípio de privilégio mínimo.
+- Use uma IAM role para dar as permissões no cluster.
   Use sempre as melhores práticas para provisionar os recursos da núvem que escolher.
 
 ## CI/CD
-Os requisitos são os seguintes:
-* Escolha uma ferramenta de CI/CD apropriada.
-* Configure um pipeline de build de contêiner docker da aplicação node.
-* Configure um pipeline de deploy contínuo para o aplicação node em contêiner
-    * Deve conter pelo menos uma fase de testes e uma fase de deploy.
-    * A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
-    * Ele deve seguir o fluxo do GitHub flow para o deploy.
-    * O deploy deve ser feito no cluster k8s provisionado no Code Challenge.
 
+Os requisitos são os seguintes:
+
+- Escolha uma ferramenta de CI/CD apropriada.
+- Configure um pipeline de build de contêiner docker da aplicação node.
+- Configure um pipeline de deploy contínuo para o aplicação node em contêiner
+  - Deve conter pelo menos uma fase de testes e uma fase de deploy.
+  - A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
+  - Ele deve seguir o fluxo do GitHub flow para o deploy.
+  - O deploy deve ser feito no cluster k8s provisionado no Code Challenge.
 
 ## Aplicação
 
 A aplicação node é super simples, apenas um express que expõe webserver HTTP na port 3000
 
 Os endpoints são os seguintes:
+
 - `/`
 - `/health/check`
 
@@ -48,4 +52,50 @@ Os endpoints são os seguintes:
 
 Nós entendemos se você não tiver uma conta em uma dessas núvens, então faça o seu melhor com
 código de provisionamento escolhido e disponibilize num repositório git, que nós testaremos.
- 
+
+# Instruções para uso do ambiente de desenvolvimento docker
+
+Se não quiser instalar o client do gcp,azure,etc ou o node na sua máquina, basta executar o container da raiz:
+
+```
+docker volume create CONFIG_DATA
+docker volume create KUBE_DATA
+docker volume create PULUMI_DATA
+docker compose up -d
+docker exec -it kanastra-dev bash
+```
+
+Os volumes CONFIG_DATA, KUBE_DATA e PULUMII_DATA guardarão as credenciais para que não seja necessário realizar o login via CLI toda vez que o container for finalizado. Recomenda-se remover os volumes explicitamente ao final do uso.
+
+## Login no GCP por dentro do container
+
+Para este projeto, criei uma conta grátis no GCP e criei o projeto "kanastra-dev". Esses foraom os passos para autenticação dentro do container
+
+```
+gcloud auth application-default login --no-launch-browser
+```
+
+Copiar o link no browser para gerar um código e copiá-lo de volta no terminal do container. Depois configurar a quota e setar o projeto padrão
+
+```
+gcloud auth application-default set-quota-project kanastra-dev
+gcloud config set project kanastra-dev
+```
+
+Lembre-se de habilitar a Compute Engine API, e Kubernetes Engigne API do projeto antes de prosseguir
+
+## Inicializações do Pulumi
+
+Para não precisar criar conta na cloud do pulumi, optei por fazer o login local, e inicializar a stack de dev
+
+```
+pulumi login --local
+pulumi stack init dev
+```
+
+# Executando e destruindo
+
+```
+npm run pulumi:dev-up
+npm run pulumi:dev-destroy
+```

@@ -9,6 +9,7 @@ jest.mock('@pulumi/gcp', () => ({
       id: 'mock-cluster-id',
       location: 'us-central1',
       initialNodeCount: 3,
+      deletionProtection: false,
     })),
   },
 }));
@@ -34,8 +35,8 @@ jest.mock('@pulumi/pulumi', () => {
             switch (key) {
               case 'initialNodeCount':
                 return '3';
-              case 'minMasterVersion':
-                return '1.18';
+              case 'deletionProtection':
+                return 'false';
               case 'machineType':
                 return 'e2-micro';
               default:
@@ -72,5 +73,9 @@ describe('GKE Cluster', () => {
 
   it('should have the correct location', () => {
     expect(cluster?.location).toBe('us-central1');
+  });
+
+  it('should not have deletion protection', async () => {
+    expect(cluster?.deletionProtection).toBe(false);
   });
 });
