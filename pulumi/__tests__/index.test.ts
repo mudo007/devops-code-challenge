@@ -13,6 +13,43 @@ jest.mock('@pulumi/gcp', () => ({
   },
 }));
 
+// Mock pulumi.Config
+jest.mock('@pulumi/pulumi', () => {
+  const actualPulumi = jest.requireActual('@pulumi/pulumi');
+  return {
+    ...actualPulumi,
+    Config: jest.fn().mockImplementation((name: string) => {
+      return {
+        require: (key: string) => {
+          if (name === 'gcp') {
+            switch (key) {
+              case 'project':
+                return 'mock-project-id';
+              case 'region':
+                return 'us-central1';
+              default:
+                throw new Error(`Unknown config key: ${key}`);
+            }
+          } else if (name === 'gcp-cluster') {
+            switch (key) {
+              case 'initialNodeCount':
+                return '3';
+              case 'minMasterVersion':
+                return '1.18';
+              case 'machineType':
+                return 'e2-micro';
+              default:
+                throw new Error(`Unknown config key: ${key}`);
+            }
+          } else {
+            throw new Error(`Unknown config namespace: ${name}`);
+          }
+        },
+      };
+    }),
+  };
+});
+
 describe('GKE Cluster', () => {
   let cluster: gcp.container.Cluster;
 
