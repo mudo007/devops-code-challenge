@@ -1,8 +1,8 @@
 import * as pulumi from '@pulumi/pulumi';
 import { Cluster } from './src/cloud';
 
-const config = new pulumi.Config();
-const cloudProvider = config.require('cloudProvider');
+const cloudConfig = new pulumi.Config('cloud');
+const cloudProvider = cloudConfig.require('cloudProvider');
 
 const cluster = new Cluster('kanastra-cluster', cloudProvider);
 

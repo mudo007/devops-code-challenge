@@ -1,2 +1,6 @@
 config:
-  my-repo:cloudProvider: "gcp"
+  cloud:cloudProvider: 'gcp'
+  gcp-cluster:initialNodeCount: 1
+  gcp-cluster:location: 'us-east1'
+  gcp-cluster:minMasterVersion: '1.18'
+  gcp-cluster:machineType: 'e2-micro'

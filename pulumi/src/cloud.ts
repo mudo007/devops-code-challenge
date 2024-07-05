@@ -1,5 +1,5 @@
 import * as pulumi from '@pulumi/pulumi';
-import { createCluster } from './gcp/cluster';
+import { gcpCreateCluster } from './gcp/cluster';
 import * as gcp from '@pulumi/gcp';
 
 export class Cluster {
@@ -8,7 +8,7 @@ export class Cluster {
   constructor(name: string, cloudProvider: string) {
     switch (cloudProvider) {
       case 'gcp':
-        this.k8sCluster = createCluster(name);
+        this.k8sCluster = gcpCreateCluster(name);
         break;
       default:
         throw new Error(`Unknown cloud provider: ${cloudProvider}`);

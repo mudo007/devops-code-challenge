@@ -1,17 +1,17 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
-export function createCluster(
+export function gcpCreateCluster(
   name: string
 ): pulumi.Output<gcp.container.Cluster> {
-  const cluster = new gcp.container.Cluster(name, {
-    initialNodeCount: 1,
-    location: 'us-east1',
-    minMasterVersion: '1.18',
+  const gcpClusterConfig = new pulumi.Config('gcp-cluster');
+  const gcpCluster = new gcp.container.Cluster(name, {
+    initialNodeCount: Number(gcpClusterConfig.require('initialNodeCount')),
+    location: gcpClusterConfig.require('location'),
+    minMasterVersion: gcpClusterConfig.require('minMasterVersion'),
     nodeConfig: {
-      machineType: 'e2-micro',
+      machineType: gcpClusterConfig.require('machineType'),
     },
   });
-
-  return pulumi.output(cluster);
+  return pulumi.output(gcpCluster);
 }
