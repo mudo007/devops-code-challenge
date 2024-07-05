@@ -1,7 +1,11 @@
 FROM node:18
 
 # add Github to known hosts inside the container
-RUN mkdir -p -m 0700 /root/.ssh && ssh-keyscan github.com >> /root/.ssh/known_hosts
+# RUN mkdir -p -m 0700 /root/.ssh && ssh-keyscan github.com >> /root/.ssh/known_hosts
+#External volumes we will need
+VOLUME /root/.kube
+VOLUME /root/.config
+VOLUME /root/.pulumi
 
 # Install Pulumi
 RUN curl -fsSL https://get.pulumi.com | sh
@@ -18,6 +22,7 @@ apt-get install -y google-cloud-sdk
 
 # Install Husky for git hooks
 RUN npx husky install
+
 
 WORKDIR /app
 

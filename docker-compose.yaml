@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   kanastra-dev:
@@ -8,13 +8,23 @@ services:
       ssh:
         - default
     image: diogoandrade/kanastra:v1
-    secrets:
-      - github-ssh-key
+    # secrets:
+    #   - github-ssh-key
     container_name: kanastra-dev
     volumes:
       - ${PWD}:/app
+      - KUBE_DATA:/root/.kube
+      - CONFIG_DATA:/root/.config
+      - PULUMI_DATA:/root/.config
     tty: true
-    entrypoint: ['/bin/bash']
-secrets:
-  github-ssh-key:
-    file: ${HOME}/.ssh/id_ed25519
+    entrypoint: ["/bin/bash"]
+# secrets:
+#   github-ssh-key:
+#     file: ${HOME}/.ssh/id_ed25519
+volumes:
+  KUBE_DATA:
+    external: true
+  CONFIG_DATA:
+    external: true
+  PULUMI_DATA:
+    external: true
