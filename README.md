@@ -16,7 +16,7 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 Você precisa nos mostrar uma infraestrutura provisionada usando Infra-as-code (terraform, pulumi, ansible, etc),
 que deve conter:
 
-- [WIP] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
+- [OK - MVP_prov_cluster] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
 - Configure a rede e suas subnets.
 - Configure a segurança usando o princípio de privilégio mínimo.
 - Use uma IAM role para dar as permissões no cluster.
