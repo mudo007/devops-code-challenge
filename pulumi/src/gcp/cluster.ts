@@ -18,13 +18,15 @@ const machineType = gcpClusterConfig.require('machineType');
 export function gcpCreateCluster(
   name: string,
   vpc: gcp.compute.Network,
-  vpcSubnet: gcp.compute.Subnetwork
+  vpcSubnet: gcp.compute.Subnetwork,
+  sa: gcp.serviceaccount.Account
 ): pulumi.Output<gcp.container.Cluster> {
   const gcpCluster = new gcp.container.Cluster(name, {
     initialNodeCount: initialNodeCount,
     location: location,
     nodeConfig: {
       machineType: machineType,
+      serviceAccount: sa.email,
     },
     deletionProtection: deletionProtection,
     network: vpc.id,

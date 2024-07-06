@@ -18,7 +18,7 @@ que deve conter:
 
 - [OK - MVP_prov_cluster] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
 - [OK - MVP_prov_network] Configure a rede e suas subnets.
-- Configure a segurança usando o princípio de privilégio mínimo.
+- [OK - MVP_prov_IAM] Configure a segurança usando o princípio de privilégio mínimo.
 - Use uma IAM role para dar as permissões no cluster.
   Use sempre as melhores práticas para provisionar os recursos da núvem que escolher.
 
@@ -65,7 +65,7 @@ docker compose up -d
 docker exec -it kanastra-dev bash
 ```
 
-Os volumes CONFIG_DATA, KUBE_DATA e PULUMII_DATA guardarão as credenciais para que não seja necessário realizar o login via CLI toda vez que o container for finalizado. Recomenda-se remover os volumes explicitamente ao final do uso.
+Os volumes CONFIG_DATA, KUBE_DATA e PULUMI_DATA guardarão as credenciais para que não seja necessário realizar o login via CLI toda vez que o container for finalizado. Recomenda-se remover os volumes explicitamente ao final do uso.
 
 ## Login no GCP por dentro do container
 
@@ -82,7 +82,7 @@ gcloud auth application-default set-quota-project kanastra-dev
 gcloud config set project kanastra-dev
 ```
 
-Lembre-se de habilitar a Compute Engine API, e Kubernetes Engigne API do projeto antes de prosseguir
+Todas as API's necessárias são habiliadas via código.
 
 ## Inicializações do Pulumi
 
