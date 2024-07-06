@@ -17,7 +17,7 @@ Você precisa nos mostrar uma infraestrutura provisionada usando Infra-as-code (
 que deve conter:
 
 - [OK - MVP_prov_cluster] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
-- [WIP] Configure a rede e suas subnets.
+- [OK - MVP_prov_network] Configure a rede e suas subnets.
 - Configure a segurança usando o princípio de privilégio mínimo.
 - Use uma IAM role para dar as permissões no cluster.
   Use sempre as melhores práticas para provisionar os recursos da núvem que escolher.
