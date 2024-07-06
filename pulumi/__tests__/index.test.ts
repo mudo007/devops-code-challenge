@@ -2,7 +2,7 @@ import * as pulumi from '@pulumi/pulumi';
 import * as gcp from '@pulumi/gcp';
 import { Cluster } from '../src/cloud';
 
-// Mock Pulumi and GCP
+// Mock Pulumi and GCP using the defined mock functions
 jest.mock('@pulumi/gcp', () => ({
   container: {
     Cluster: jest.fn(() => ({
@@ -12,8 +12,19 @@ jest.mock('@pulumi/gcp', () => ({
       deletionProtection: false,
     })),
   },
+  compute: {
+    Network: jest.fn(() => ({
+      id: 'mock-vpc-id',
+      selfLink: 'mock-vpc-selfLink',
+    })),
+    Subnetwork: jest.fn(() => ({
+      id: 'mock-subnet-id',
+      name: 'mock-subnet-name',
+      selfLink: 'mock-subnet-selfLink',
+      network: 'mock-vpc-selfLink',
+    })),
+  },
 }));
-
 // Mock pulumi.Config
 jest.mock('@pulumi/pulumi', () => {
   const actualPulumi = jest.requireActual('@pulumi/pulumi');
@@ -42,6 +53,17 @@ jest.mock('@pulumi/pulumi', () => {
               default:
                 throw new Error(`Unknown config key: ${key}`);
             }
+          } else if (name === 'gcp-network') {
+            switch (key) {
+              case 'vpcSubnetCidr':
+                return '172.20.0.0/16';
+              case 'podSubnetCidr':
+                return '172.20.128.0/18';
+              case 'serviceSubnetCidr':
+                return '172.20.0.0/18';
+              default:
+                throw new Error(`Unknown config key: ${key}`);
+            }
           } else {
             throw new Error(`Unknown config namespace: ${name}`);
           }
@@ -62,7 +84,6 @@ describe('GKE Cluster', () => {
       });
     });
   });
-
   it('should create a GKE cluster', () => {
     expect(cluster).toBeDefined();
   });

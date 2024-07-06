@@ -14,8 +14,11 @@ const deletionProtection =
   gcpClusterConfig.require('deletionProtection') === 'true';
 const machineType = gcpClusterConfig.require('machineType');
 
+//Creates the GKE
 export function gcpCreateCluster(
-  name: string
+  name: string,
+  vpc: gcp.compute.Network,
+  vpcSubnet: gcp.compute.Subnetwork
 ): pulumi.Output<gcp.container.Cluster> {
   const gcpCluster = new gcp.container.Cluster(name, {
     initialNodeCount: initialNodeCount,
@@ -24,6 +27,12 @@ export function gcpCreateCluster(
       machineType: machineType,
     },
     deletionProtection: deletionProtection,
+    network: vpc.id,
+    subnetwork: vpcSubnet.id,
+    ipAllocationPolicy: {
+      clusterSecondaryRangeName: 'pods',
+      servicesSecondaryRangeName: 'services',
+    },
   });
   return pulumi.output(gcpCluster);
 }
