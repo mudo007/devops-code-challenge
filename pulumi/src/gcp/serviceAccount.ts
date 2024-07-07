@@ -77,7 +77,7 @@ function createAndStoreAccountSecret(
     {
       secret: secret.id,
       secretData: key.privateKey.apply((key) =>
-        Buffer.from(key, 'utf8').toString('base64')
+        Buffer.from(key, 'base64').toString()
       ),
     },
     { dependsOn: secret }

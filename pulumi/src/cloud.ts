@@ -5,6 +5,7 @@ import { gcpCreateCluster } from './gcp/cluster';
 import { gcpCreateNetwork } from './gcp/network';
 import { enableGcpApis } from './gcp/api';
 import { createServiceAccountKeyAndStoreSecret } from './gcp/serviceAccount';
+import { createArtifactRepository } from './gcp/gar';
 
 // Abstracts away the creation of a cluster on different cloud providers
 export class Cluster {
@@ -18,15 +19,18 @@ export class Cluster {
         enableGcpApis();
 
         //Create the necessary Service accounts, with their granular permitions
+        //cluster creation
         const { serviceAccount: clusterCreateSa } =
           createServiceAccountKeyAndStoreSecret('cluster-create', [
             'roles/container.admin',
             'roles/compute.networkAdmin',
           ]);
-        const { serviceAccount: deployContainerToClusterSa } =
-          createServiceAccountKeyAndStoreSecret('cluster-deploy', [
-            'roles/container.developer',
-          ]);
+        // container push and deployment from github actions
+        createServiceAccountKeyAndStoreSecret('cluster-deploy', [
+          'roles/container.developer',
+        ]);
+        // Create the Artifact Registry
+        createArtifactRepository();
         // Create the networking configuration
         const { vpc, vpcSubnet } = gcpCreateNetwork(name);
 

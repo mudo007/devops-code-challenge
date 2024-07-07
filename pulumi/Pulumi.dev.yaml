@@ -9,3 +9,4 @@ config:
   gcp-network:vpcSubnetCidr: '10.100.0.0/16'
   gcp-network:podSubnetCidr: '172.30.0.0/22'
   gcp-network:serviceSubnetCidr: '172.30.4.0/22'
+  gcp-gar:garName: 'kanastra-artifact-registry'

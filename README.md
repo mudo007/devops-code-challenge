@@ -5,11 +5,12 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 - fiz um fork a partir do repo original
 - Cloud escolhida: primeiramente Google Cloud, e AWS reutilizando o projeto ao máximo, se der tempo
 - Ferramentas escolhidas: Pulumi + Typescript, Github Actions, Prettier + ESLint
-- Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste
-- Controle de atividades: Idealmente, eu faria um board no jira com integração entre github para que o ticket tivesse um vínculo para o commit que gerou uma build bem sucedida. Mas para economizar tempo, o controle será por esse readme mesmo, onde o commit de cada etapa terá um link no próprio texto
+- Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste (fiz só para o provisionamento do cluster, mas abnadonei)
+- Controle de atividades: Atualização do README mesmo
 - Tagging: Cada etapa (Provisionamento, CI/CD, Aplicação) terá uma tag correspondente MVP_prov, MVP_pipe, MVP_app, coisas bonus serão planejadas e adicionadas após o MVP estar pronto e estar sobrando prazo para a entrega
 - Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
 - Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
+- Estratégia de build e deploy: Como o projeto é solitário, todo o push para o github vai disparar um teste e build. A criação de tags vai disparar não só o test e build, mas também a criação de um container e push para o Artifact Registry
 
 ## Provisionamento
 
@@ -26,8 +27,8 @@ que deve conter:
 
 Os requisitos são os seguintes:
 
-- [WIP] Escolha uma ferramenta de CI/CD apropriada.
-- [WIP] Configure um pipeline de build de contêiner docker da aplicação node.
+- [OK - MVP_cicd_ci] Escolha uma ferramenta de CI/CD apropriada.
+- [OK - MVP_cicd_ci] Configure um pipeline de build de contêiner docker da aplicação node.
 - Configure um pipeline de deploy contínuo para o aplicação node em contêiner
   - Deve conter pelo menos uma fase de testes e uma fase de deploy.
   - A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
@@ -94,9 +95,24 @@ pulumi login --local
 pulumi stack init dev
 ```
 
-# Executando e destruindo
+# Provisionando toda a infra:
 
 ```
 npm run pulumi:dev-up
+```
+
+# Adicionando chave json ao github actions
+
+Você pode abrir o painel do gcp, navegar pelo secrets manager, copiar o json do "cluster-deploy-secret-id" e colar em um novo "repository Secrets" do github (Github.com -> repositorio -> settings do repo -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY)
+
+Entretanto, para que, em momento algum o secret seja exposto, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login". Eu escolhi um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
+
+```
+gcloud secrets versions access latest --secret=cluster-deploy-secret-id | gh secret set GAR_JSON_KEY --repo mudo007/devops-code-challenge
+```
+
+# Destruindo tudo:
+
+```
 npm run pulumi:dev-destroy
 ```

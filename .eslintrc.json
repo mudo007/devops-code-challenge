@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:yaml/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["prettier", "yaml"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.yaml", "*.yml"],
+      "parser": "yaml-eslint-parser",
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "parser": "yaml"
+          }
+        ]
+      }
+    }
+  ]
+}
