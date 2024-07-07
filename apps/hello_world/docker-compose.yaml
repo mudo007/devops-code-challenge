@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  hello-world-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      ssh:
+        - default
+    image: hello-world-kanastra:v1
+    container_name: hello-world-dev
+    ports:
+      - "3001:3000"
+    expose:
+      - 3000
+    volumes:
+      - ${PWD}:/app
+    tty: true
+    command: ["node", "dist/app.js"]

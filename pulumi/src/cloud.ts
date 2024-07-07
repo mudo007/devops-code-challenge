@@ -28,6 +28,7 @@ export class Cluster {
         // container push and deployment from github actions
         createServiceAccountKeyAndStoreSecret('cluster-deploy', [
           'roles/container.developer',
+          'roles/artifactregistry.writer'
         ]);
         // Create the Artifact Registry
         createArtifactRepository();
