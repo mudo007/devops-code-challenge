@@ -88,9 +88,6 @@ coverage/
 docker-compose.override.yml
 .dockerignore
 
-# GitHub Actions
-.github/
-
 # Ignore any specific configuration
 config.yaml
 

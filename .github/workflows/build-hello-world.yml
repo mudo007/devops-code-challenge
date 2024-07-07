@@ -1,0 +1,32 @@
+name: Build Hello World Application
+
+on:
+  push:
+    paths:
+      - "apps/hello_world/**"
+  pull_request:
+    paths:
+      - "apps/hello_world/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: |
+          cd apps/hello_world
+          npm install
+
+      - name: Build the application
+        run: |
+          cd apps/hello_world
+          npm run build
