@@ -2,11 +2,12 @@ name: Build, test and deploy Application
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'apps/hello_world/**'
       - '.github/workflows/**'
-    # tags:
-    #   - '*'
+  create:
   pull_request:
     paths:
       - 'apps/hello_world/**'
@@ -14,7 +15,7 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-
+    if: startsWith(github.ref, 'refs/heads/main')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
