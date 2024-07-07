@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "apps/hello_world/**"
+      - ".github/workflows/**"
   pull_request:
     paths:
       - "apps/hello_world/**"
