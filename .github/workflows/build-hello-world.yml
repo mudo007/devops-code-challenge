@@ -26,6 +26,10 @@ jobs:
           cd apps/hello_world
           npm install
 
+      - name: Run tests
+        run: |
+          cd hello_world
+          npm test
       - name: Build the application
         run: |
           cd apps/hello_world
