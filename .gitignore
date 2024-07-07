@@ -118,6 +118,10 @@ package-lock.json
 yarn.lock
 .pnpm-lock.yaml
 
+# but not the app lock file, it is needed
+# for caching on the build pipeline
+!apps/hello_world/package-lock.json
+
 # Ignore runtime files
 .pulumi/
 
