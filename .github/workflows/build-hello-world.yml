@@ -30,7 +30,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd hello_world
+          cd apps/hello_world
           npm test
       - name: Build the application
         run: |
