@@ -45,6 +45,7 @@ Os endpoints são os seguintes:
 
 ## Bonus
 
+- [OK - BONUS_ts_app] Conversão da aplicação para typescript
 - Adicionar pipelines para teste lint, e outras coisas a mais na aplicação
 - O deploy de kubernetes tiver interligado com ferramenta de infra as code
 

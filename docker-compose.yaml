@@ -11,6 +11,10 @@ services:
     # secrets:
     #   - github-ssh-key
     container_name: kanastra-dev
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
     volumes:
       - ${PWD}:/app
       - KUBE_DATA:/root/.kube
