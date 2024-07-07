@@ -62,4 +62,4 @@ jobs:
         run: |
           cd apps/hello_world
           docker build -t us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/} .
-          docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo:${GITHUB_REF#refs/tags/}
+          docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/}
