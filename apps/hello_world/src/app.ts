@@ -7,6 +7,9 @@ app.get('/', (req: Request, res: Response) => res.send('Hello World!'));
 
 app.get('/health/check', (req: Request, res: Response) => res.send('OK'));
 
+// Endpoint bobo para dar trigger no pipeline de CI/CD
+app.get('/orly', (req: Request, res: Response) => res.send('yarly'));
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 }
