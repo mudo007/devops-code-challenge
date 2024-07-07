@@ -61,5 +61,5 @@ jobs:
       - name: Build and push Docker image
         run: |
           cd app/hello_world
-          docker build -t gcr.io/kanastra-dev/hello_world:${GITHUB_REF#refs/tags/} .
-          docker push gcr.io/kanastra-dev/hello_world:${GITHUB_REF#refs/tags/}
+          docker build -t us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/} .
+          docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo:${GITHUB_REF#refs/tags/}
