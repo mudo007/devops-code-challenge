@@ -19,15 +19,15 @@ que deve conter:
 - [OK - MVP_prov_cluster] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
 - [OK - MVP_prov_network] Configure a rede e suas subnets.
 - [OK - MVP_prov_IAM] Configure a segurança usando o princípio de privilégio mínimo.
-- Use uma IAM role para dar as permissões no cluster.
+- [OK - MVP_prov_deploy_sa] Use uma IAM role para dar as permissões no cluster.
   Use sempre as melhores práticas para provisionar os recursos da núvem que escolher.
 
 ## CI/CD
 
 Os requisitos são os seguintes:
 
-- Escolha uma ferramenta de CI/CD apropriada.
-- Configure um pipeline de build de contêiner docker da aplicação node.
+- [WIP] Escolha uma ferramenta de CI/CD apropriada.
+- [WIP] Configure um pipeline de build de contêiner docker da aplicação node.
 - Configure um pipeline de deploy contínuo para o aplicação node em contêiner
   - Deve conter pelo menos uma fase de testes e uma fase de deploy.
   - A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.

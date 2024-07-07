@@ -4,10 +4,46 @@ import * as gcp from '@pulumi/gcp';
 // Global setups for google cloud
 const gcpConfig = new pulumi.Config('gcp');
 
+// Secrets creation and storing depends on the secrets api
+const secretsApi = new gcp.projects.Service('secretsApi', {
+  service: 'secretmanager.googleapis.com',
+});
+
+// Wraps the process of creating a service account, bind policies,
+// create and store secrets, in a structured way with a clear naming convention
+export function createServiceAccountKeyAndStoreSecret(
+  name: string,
+  roles: string[]
+): {
+  serviceAccount: gcp.serviceaccount.Account;
+  accountKey: gcp.serviceaccount.Key;
+} {
+  const serviceAccount = createServiceAccount(name);
+  addIamPolicyBindings(name, serviceAccount, roles);
+  const accountKey = createServiceAccountKey(name, serviceAccount);
+  createAndStoreAccountSecret(name, accountKey);
+  return { serviceAccount, accountKey };
+}
+
+// Helper functions below
 function createServiceAccount(name: string): gcp.serviceaccount.Account {
   return new gcp.serviceaccount.Account(name, {
     accountId: `${name}-sa`,
     displayName: `${name} Service Account`,
+  });
+}
+
+function addIamPolicyBindings(
+  name: string,
+  sa: gcp.serviceaccount.Account,
+  roles: string[]
+): void {
+  roles.forEach((role, index) => {
+    new gcp.projects.IAMMember(`${name}-iam-binding-${index}`, {
+      project: gcpConfig.require('project'),
+      role: role,
+      member: pulumi.interpolate`serviceAccount:${sa.email}`,
+    });
   });
 }
 
@@ -26,44 +62,25 @@ function createAndStoreAccountSecret(
 ): gcp.secretmanager.Secret {
   const secretName = `${name}-secret`;
   const secretId = `${name}-secret-id`;
-  const secret = new gcp.secretmanager.Secret(secretName, {
-    secretId: secretId,
-    replication: {
-      auto: {},
+  const secret = new gcp.secretmanager.Secret(
+    secretName,
+    {
+      secretId: secretId,
+      replication: {
+        auto: {},
+      },
     },
-  });
-  new gcp.secretmanager.SecretVersion(`${name}-secret-version`, {
-    secret: secret.id,
-    secretData: key.privateKey.apply((key) =>
-      Buffer.from(key, 'utf8').toString('base64')
-    ),
-  });
+    { dependsOn: secretsApi }
+  );
+  new gcp.secretmanager.SecretVersion(
+    `${name}-secret-version`,
+    {
+      secret: secret.id,
+      secretData: key.privateKey.apply((key) =>
+        Buffer.from(key, 'utf8').toString('base64')
+      ),
+    },
+    { dependsOn: secret }
+  );
   return secret;
-}
-
-function addIamPolicyBindings(
-  sa: gcp.serviceaccount.Account,
-  roles: string[]
-): void {
-  roles.forEach((role, index) => {
-    new gcp.projects.IAMMember(`sa-iam-binding-${index}`, {
-      project: gcpConfig.require('project'),
-      role: role,
-      member: pulumi.interpolate`serviceAccount:${sa.email}`,
-    });
-  });
-}
-
-export function createServiceAccountKeyAndStoreSecret(
-  name: string,
-  roles: string[]
-): {
-  serviceAccount: gcp.serviceaccount.Account;
-  accountKey: gcp.serviceaccount.Key;
-} {
-  const serviceAccount = createServiceAccount(name);
-  addIamPolicyBindings(serviceAccount, roles);
-  const accountKey = createServiceAccountKey(name, serviceAccount);
-  createAndStoreAccountSecret(name, accountKey);
-  return { serviceAccount, accountKey };
 }

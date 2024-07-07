@@ -1,6 +1,10 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
+const computeApi = new gcp.projects.Service('computeApi', {
+  service: 'compute.googleapis.com',
+});
+
 // Creates the VPC awith secondary ranges for pod and services subnets
 export function gcpCreateNetwork(name: string): {
   vpc: gcp.compute.Network;
@@ -16,9 +20,13 @@ export function gcpCreateNetwork(name: string): {
   const podSubnetCidr = networkConfig.require('podSubnetCidr');
   const serviceSubnetCidr = networkConfig.require('serviceSubnetCidr');
 
-  const vpc = new gcp.compute.Network(name, {
-    autoCreateSubnetworks: false,
-  });
+  const vpc = new gcp.compute.Network(
+    name,
+    {
+      autoCreateSubnetworks: false,
+    },
+    { dependsOn: computeApi }
+  );
 
   const vpcSubnet = new gcp.compute.Subnetwork(`${name}-subnet`, {
     ipCidrRange: vpcSubnetCidr,

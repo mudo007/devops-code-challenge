@@ -1,5 +1,6 @@
 import * as gcp from '@pulumi/gcp';
 
+// Enables all necessary API's for a project
 export function enableGcpApis() {
   const services = [
     'compute.googleapis.com',
