@@ -5,8 +5,8 @@ on:
     paths:
       - 'apps/hello_world/**'
       - '.github/workflows/**'
-    tags:
-      - '*'
+    # tags:
+    #   - '*'
   pull_request:
     paths:
       - 'apps/hello_world/**'
