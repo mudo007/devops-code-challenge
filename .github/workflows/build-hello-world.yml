@@ -31,6 +31,11 @@ jobs:
           cd apps/hello-world
           npm install
 
+      - name: Run lint
+        run: |
+          cd apps/hello-world
+          npm run check-format
+
       - name: Run tests
         run: |
           cd apps/hello-world
