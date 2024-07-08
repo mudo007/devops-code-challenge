@@ -8,6 +8,9 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --config jest.config.ts",
+    "lint": "eslint './**/*.ts'",
+    "format": "prettier --write './**/*.ts'",
+    "check-format": "prettier --check './**/*.ts'",
     "start": "node dist/app.js",
     "build": "tsc",
     "dev": "npx ts-node src/app.ts"

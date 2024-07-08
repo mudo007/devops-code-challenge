@@ -34,7 +34,7 @@ jobs:
       - name: Run lint
         run: |
           cd apps/hello-world
-          npm run check-format
+          npm run lint
 
       - name: Run tests
         run: |
