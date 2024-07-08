@@ -77,17 +77,10 @@ jobs:
 
       - name: Set up Pulumi
         uses: pulumi/actions@v5
-
-      - name: Install dependencies
-        run: |
-          cd ./pulumi
-          npm install
-
-      - name: Update GKE deployment
-        run: |
-          cd ./pulumi
-          pulumi stack select dev
-          pulumi up --yes
+        with:
+          command: up
+          stack-name: dev
+          cloud-url: file://~
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           HELLO_WORLD_TAG: ${GITHUB_REF#refs/tags/}
