@@ -91,18 +91,24 @@ Todas as API's necessárias são habiliadas via código.
 
 ## Inicializações do Pulumi
 
-Todos os comandos daqui pra frente devem ser realizados a partir da pasta ./pulumi
+- Todos os comandos daqui pra frente devem ser realizados a partir da pasta ./pulumi
 
 ```
 cd pulumi
 ```
 
-Crie sua conta em https://app.pulumi.com, se não o tiver feito ainda
-Crie um projeto chamado "kanastra-dev", na regiao us-east1, e o gcp:project também com o nome de "kanastra-dev", stack name: dev
+- Crie sua conta em https://app.pulumi.com, se não o tiver feito ainda`
 
 ```
 npm install
 pulumi login
+```
+
+- Crie uma organização, no para este projeto, eu criei a organização "kanastra-challenge-da", mas você pode usar uma existente
+- Configure a organização como padrão para o projeto
+
+```
+pulumi org set-default kanastra-challenge-da
 ```
 
 - Gere um access token (https://app.pulumi.com/<username>>/settings/tokens)e cole no terminal, caso esteja executando dentro do container, ou aperte enter para continuar pelo browser
@@ -147,15 +153,16 @@ gcloud secrets versions access latest --secret=cluster-create-secret-id | gh sec
 
 ```
 
-Para o token de acesso do Pulumi, não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
+Para o token de acesso do Pulumi e o nome da organização (criada no processo de login), não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
 
 ```
 echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
+echo "kanastra-challenge-da" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
 ```
 
 ## Gerando tags para dar trigger nas builds
 
-A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório
+A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório.
 
 ```
 git tag -a dummie_tag -m "Tag dummie para disparar build and push"
