@@ -4,6 +4,9 @@ import * as pulumi from '@pulumi/pulumi';
 const gcpConfig = new pulumi.Config('gcp');
 const projectName = gcpConfig.require('project');
 
+//extract the Deployment tag from the environment
+const helloWorldTag = process.env.HELLO_WORLD_TAG || 'latest';
+
 export function gcpCreateK8sServices(
   appName: string,
   clusterProvider: k8s.Provider
@@ -37,8 +40,7 @@ export function gcpCreateK8sServices(
             containers: [
               {
                 name: `${appName}`,
-                image:
-                  'us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello-world:latest',
+                image: `us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello-world:${helloWorldTag}`,
                 ports: [{ containerPort: 3000 }],
                 resources: {
                   requests: {
