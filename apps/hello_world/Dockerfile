@@ -14,6 +14,7 @@ RUN npm install --omit=dev
 # build
 RUN npm run build
 
+# Minimize image size
 FROM node:18-alpine AS bundler
 
 WORKDIR /app

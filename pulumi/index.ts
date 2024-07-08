@@ -6,4 +6,5 @@ const cloudProvider = cloudConfig.require('cloudProvider');
 
 const cluster = new Cluster('kanastra-cluster', cloudProvider);
 
-export const k8sCluster = cluster.k8sCluster;
+export const clusterName = cluster.k8sCluster.name;
+export const kubeconfig = cluster.k8sKubeConfig;
