@@ -157,7 +157,7 @@ Para o token de acesso do Pulumi e o nome da organização (criada no processo d
 
 ```
 echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
-echo "kanastra-challenge-da" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
+echo "kanastra-challenge-da" | gh secret set PULUMI_ORG --repo mudo007/devops-code-challenge
 ```
 
 ## Gerando tags para dar trigger nas builds
