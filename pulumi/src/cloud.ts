@@ -7,6 +7,7 @@ import { gcpCreateNetwork } from './gcp/network';
 import { enableGcpApis } from './gcp/api';
 import { createServiceAccountKeyAndStoreSecret } from './gcp/serviceAccount';
 import { createArtifactRepository } from './gcp/gar';
+import { gcpCreateK8sServices } from './gcp/deployment';
 
 // Abstracts away the creation of a cluster on different cloud providers
 export class Cluster {
@@ -26,6 +27,7 @@ export class Cluster {
           createServiceAccountKeyAndStoreSecret('cluster-create', [
             'roles/container.admin',
             'roles/compute.networkAdmin',
+            'roles/artifactregistry.reader',
           ]);
         // container push and deployment from github actions
         const { serviceAccount: deploySa, accountKey: deployKey } =
@@ -39,14 +41,13 @@ export class Cluster {
         const { vpc, vpcSubnet } = gcpCreateNetwork(name);
 
         // Create the cluster
-        const { clusterOutput, clusterKubeConfig } = gcpCreateCluster(
-          name,
-          vpc,
-          vpcSubnet,
-          clusterCreateSa
-        );
+        const { clusterOutput, clusterProvider, clusterKubeConfig } =
+          gcpCreateCluster(name, vpc, vpcSubnet, clusterCreateSa);
         this.k8sCluster = clusterOutput;
         this.k8sKubeConfig = clusterKubeConfig;
+
+        // Create deployment
+        gcpCreateK8sServices('hello-world', clusterProvider);
         break;
       // case 'aws':
       //   ...

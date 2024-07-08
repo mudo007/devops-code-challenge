@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'apps/hello_world/**'
-      - '.github/workflows/**'
+      - "apps/hello_world/**"
+      - ".github/workflows/**"
   create:
   pull_request:
     paths:
-      - 'apps/hello_world/**'
+      - "apps/hello_world/**"
 
 jobs:
   test:
@@ -23,9 +23,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'apps/hello_world/package-lock.json'
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: "apps/hello_world/package-lock.json"
       - name: Install dependencies
         run: |
           cd apps/hello_world
@@ -54,8 +54,22 @@ jobs:
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
 
-      - name: Build and push Docker image
+      - name: Build and tag Docker image
         run: |
           cd apps/hello_world
           docker build -t us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/} .
+
+      - name: Tag image as latest
+        run: >
+          docker tag us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/} 
+          us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:latest
+
+      - name: Push Image
+        run: |
           docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:${GITHUB_REF#refs/tags/}
+          docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:latest
+
+      # - name: Deploy to GKE
+      #   run: >
+      #     gcloud container clusters get-credentials my-cluster --zone us-central1-a --project ${{ secrets.GCP_PROJECT_ID }}
+      #     kubectl set image deployment/my-deployment my-container=gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app:$GITHUB_SHA

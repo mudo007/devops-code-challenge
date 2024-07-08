@@ -28,6 +28,7 @@ export function gcpCreateCluster(
   sa: gcp.serviceaccount.Account
 ): {
   clusterOutput: pulumi.Output<gcp.container.Cluster>;
+  clusterProvider: k8s.Provider;
   clusterKubeConfig: pulumi.Output<string>;
 } {
   const gcpCluster = new gcp.container.Cluster(
@@ -88,6 +89,7 @@ users:
 
   return {
     clusterOutput: pulumi.output(gcpCluster),
+    clusterProvider: k8sProvider,
     clusterKubeConfig: kubeconfig,
   };
 }
