@@ -120,7 +120,7 @@ yarn.lock
 
 # but not the app lock file, it is needed
 # for caching on the build pipeline
-!apps/hello_world/package-lock.json
+!apps/hello-world/package-lock.json
 
 # Ignore runtime files
 .pulumi/

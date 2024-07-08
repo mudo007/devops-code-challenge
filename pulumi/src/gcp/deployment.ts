@@ -31,7 +31,7 @@ export function gcpCreateK8sServices(
               {
                 name: `${appName}-app`,
                 image:
-                  'us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello_world:latest',
+                  'us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello-world:latest',
                 ports: [{ containerPort: 3000 }],
                 resources: {
                   requests: {
