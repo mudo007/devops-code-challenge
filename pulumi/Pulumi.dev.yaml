@@ -1,12 +1,12 @@
-encryptionsalt: v1:1E6nPB6VxiI=:v1:bkCiAzMGJWYt6HNd:zb/H/VLed7fEovLHyglQlRETxWeMjA==
+encryptionsalt: v1:sGOMhbYaP+4=:v1:AC46JZ6/IY1+hG1F:crRvsLAj3I2YH/ulBU7YOBWApYTBuA==
 config:
   cloud:cloudProvider: 'gcp'
-  gcp:project: 'kanastra-dev'
-  gcp:region: 'us-east1'
+  gcp-cluster:deletionProtection: 'false'
   gcp-cluster:initialNodeCount: '1'
   gcp-cluster:machineType: 'e2-medium'
-  gcp-cluster:deletionProtection: false
-  gcp-network:vpcSubnetCidr: '10.100.0.0/16'
+  gcp-gar:garName: 'kanastra-artifact-registry'
   gcp-network:podSubnetCidr: '172.30.0.0/22'
   gcp-network:serviceSubnetCidr: '172.30.4.0/22'
-  gcp-gar:garName: 'kanastra-artifact-registry'
+  gcp-network:vpcSubnetCidr: '10.100.0.0/16'
+  gcp:project: 'kanastra-dev'
+  gcp:region: 'us-east1'

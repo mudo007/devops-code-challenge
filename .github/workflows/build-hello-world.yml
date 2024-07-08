@@ -68,3 +68,25 @@ jobs:
         run: |
           docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello-world:${GITHUB_REF#refs/tags/}
           docker push us-east1-docker.pkg.dev/kanastra-dev/kanastra-artifact-registry-docker-repo/hello-world:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push-image
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Pulumi
+        uses: pulumi/actions@v5
+
+      - name: Install dependencies
+        run: |
+          cd ./pulumi
+          npm install
+
+      - name: Update GKE deployment
+        run: |
+          cd ./pulumi
+          pulumi stack select dev
+          pulumi up --yes
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}

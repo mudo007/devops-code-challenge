@@ -101,14 +101,15 @@ pulumi stack init dev
 npm run pulumi:dev-up
 ```
 
-# Adicionando chave json ao github actions
+# Adicionando chaves json ao github actions
 
-Você pode abrir o painel do gcp, navegar pelo secrets manager, copiar o json do "cluster-deploy-secret-id" e colar em um novo "repository Secrets" do github (Github.com -> repositorio -> settings do repo -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY)
+Você pode abrir o painel do gcp, navegar pelo secrets manager, copiar o json do "cluster-deploy-secret-id" e o "cluster-create-secret-id" e colar em um novo "repository Secrets" do github (Github.com -> repositorio -> settings do repo -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY / GOOGLE_CREDENTIALS)
 
-Entretanto, para que, em momento algum o secret seja exposto, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login". Eu escolhi um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
+Entretanto, para que, em momento algum os secrets sejam expostos, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login". Eu escolhi um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
 
 ```
 gcloud secrets versions access latest --secret=cluster-deploy-secret-id | gh secret set GAR_JSON_KEY --repo mudo007/devops-code-challenge
+gcloud secrets versions access latest --secret=cluster-create-secret-id | gh secret set GOOGLE_CREDENTIALS --repo mudo007/devops-code-challenge
 ```
 
 # Destruindo tudo:
