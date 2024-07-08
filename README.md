@@ -10,7 +10,7 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 - Tagging: Cada etapa (Provisionamento, CI/CD, Aplicação) terá uma tag correspondente MVP_prov, MVP_pipe, MVP_app, coisas bonus serão planejadas e adicionadas após o MVP estar pronto e estar sobrando prazo para a entrega
 - Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
 - Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
-- Estratégia de build e deploy: Como o projeto é solitário, todo o push para o github vai disparar um teste e build. A criação de tags vai disparar não só o test e build, mas também a criação de um container e push para o Artifact Registry
+- Estratégia de build e deploy: Como o projeto é solitário, todo o push para o github vai disparar um teste e build. A criação de tags vai disparar não só o test e build, mas também a criação de um container e push para o Artifact Registry, e deploy no cluster
 
 ## Provisionamento
 
@@ -55,7 +55,9 @@ Os endpoints são os seguintes:
 Nós entendemos se você não tiver uma conta em uma dessas núvens, então faça o seu melhor com
 código de provisionamento escolhido e disponibilize num repositório git, que nós testaremos.
 
-# Instruções para uso do ambiente de desenvolvimento docker
+# Passo-a-passo para executar o projeto do 0
+
+## [opcional] Instruções para uso do ambiente de desenvolvimento docker
 
 Se não quiser instalar o client do gcp,azure,etc ou o node na sua máquina, basta executar o container da raiz:
 
@@ -74,10 +76,11 @@ Os volumes CONFIG_DATA, KUBE_DATA e PULUMI_DATA guardarão as credenciais para q
 Para este projeto, criei uma conta grátis no GCP e criei o projeto "kanastra-dev". Esses foraom os passos para autenticação dentro do container
 
 ```
-gcloud auth application-default login --no-launch-browser
+gcloud auth login
+gcloud auth application-default login
 ```
 
-Copiar o link no browser para gerar um código e copiá-lo de volta no terminal do container. Depois configurar a quota e setar o projeto padrão
+Em cada um dos comandos, você deve copiar o link no browser para gerar um código e copiá-lo de volta no terminal do container. Depois configurar a quota e setar o projeto padrão.
 
 ```
 gcloud auth application-default set-quota-project kanastra-dev
@@ -88,32 +91,97 @@ Todas as API's necessárias são habiliadas via código.
 
 ## Inicializações do Pulumi
 
-Para não precisar criar conta na cloud do pulumi, optei por fazer o login local, e inicializar a stack de dev
+Todos os comandos daqui pra frente devem ser realizados a partir da pasta ./pulumi
 
 ```
-pulumi login --local
+cd pulumi
+```
+
+Crie sua conta em https://app.pulumi.com, se não o tiver feito ainda
+Crie um projeto chamado "kanastra-dev", na regiao us-east1, e o gcp:project também com o nome de "kanastra-dev", stack name: dev
+
+```
+npm install
+pulumi login
+```
+
+- Gere um access token (https://app.pulumi.com/<username>>/settings/tokens)e cole no terminal, caso esteja executando dentro do container, ou aperte enter para continuar pelo browser
+- Inicialize o prokjeto com o comando
+
+```
 pulumi stack init dev
+
 ```
 
-# Provisionando toda a infra:
+## Provisionando toda a infra:
+
+Rode o comando
 
 ```
 npm run pulumi:dev-up
+
 ```
 
-# Adicionando chaves json ao github actions
+Pode ser que o deployment fique "preso" na etapa
+
+```
+kubernetes:apps/v1:Deployment            hello-world-deployment
+```
+
+Porque ainda não há container de aplicação disponível
+Esta etapa demora por causa da configuração do cluster. você pode dar um CTRL+C sem problemas
+
+## Adicionando chaves json secretas ao github actions
+
+As chaves são necessárias para que as automações do github actions funcionem.
 
 Você pode abrir o painel do gcp, navegar pelo secrets manager, copiar o json do "cluster-deploy-secret-id" e o "cluster-create-secret-id" e colar em um novo "repository Secrets" do github (Github.com -> repositorio -> settings do repo -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY / GOOGLE_CREDENTIALS)
 
-Entretanto, para que, em momento algum os secrets sejam expostos, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login". Eu escolhi um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
+Entretanto, para que, em momento algum os secrets sejam expostos, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login", e seguir o rocesso de autenticação desejado.
+Depois deve-se gerear um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
 
 ```
+
 gcloud secrets versions access latest --secret=cluster-deploy-secret-id | gh secret set GAR_JSON_KEY --repo mudo007/devops-code-challenge
 gcloud secrets versions access latest --secret=cluster-create-secret-id | gh secret set GOOGLE_CREDENTIALS --repo mudo007/devops-code-challenge
+
 ```
+
+Para o token de acesso do Pulumi, não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
+
+```
+echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
+```
+
+## Gerando tags para dar trigger nas builds
+
+A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório
+
+```
+git tag -a dummie_tag -m "Tag dummie para disparar build and push"
+pit push --tags
+```
+
+Aguarde a pipeline do github rodar, e rode denovo o comando para subir a stack:
+
+```
+npm run pulumi:dev-up
+
+```
+
+## Verificando que tudo funcionu:
+
+Apenas Cole no browser o endereço de ip "ServiceIP" gerado na lista de Outputs, e você deverá ver um "hello world"
+
+## Testando o deploy automático
+
+Se você criar uma nova tag, e dar push, a nova imagem será "deployada" no cluster. Pode-se verificar o sucesso da operação Acessando o "Revision History" e verificando que uma nova versão foi criada
 
 # Destruindo tudo:
 
+Após terminados os testes com o projeto, você pode limpar tudo com o comando:
+
 ```
 npm run pulumi:dev-destroy
+
 ```

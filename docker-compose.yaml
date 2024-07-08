@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   kanastra-dev:
@@ -12,7 +12,7 @@ services:
     #   - github-ssh-key
     container_name: kanastra-dev
     ports:
-      - '3000:3000'
+      - "3000:3000"
     expose:
       - 3000
     volumes:
@@ -21,7 +21,7 @@ services:
       - CONFIG_DATA:/root/.config
       - PULUMI_DATA:/root/.config
     tty: true
-    entrypoint: ['/bin/bash']
+    entrypoint: ["/bin/bash"]
 # secrets:
 #   github-ssh-key:
 #     file: ${HOME}/.ssh/id_ed25519
