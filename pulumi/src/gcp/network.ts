@@ -12,6 +12,7 @@ export function gcpCreateNetwork(name: string): {
 } {
   const gcpConfig = new pulumi.Config('gcp');
   const location = gcpConfig.require('region');
+  const projectName = gcpConfig.require('project');
   pulumi.runtime.setConfig('gcp:region', gcpConfig.require('region'));
   pulumi.runtime.setConfig('gcp:project', gcpConfig.require('project'));
 
@@ -37,6 +38,23 @@ export function gcpCreateNetwork(name: string): {
       { rangeName: 'services', ipCidrRange: serviceSubnetCidr },
     ],
   });
+
+  // Create a Firewall Rule to allow traffic on port 80 of the cluster ingress
+  const firewallRule = new gcp.compute.Firewall(
+    `${projectName}-${name}-allow-http`,
+    {
+      network: vpc.name,
+      allows: [
+        {
+          protocol: 'tcp',
+          ports: ['80'],
+        },
+      ],
+      direction: 'INGRESS',
+      sourceRanges: ['0.0.0.0/0'], // Allow traffic from any IP
+      targetTags: ['http-server'], //same tag on the cluster
+    }
+  );
 
   return {
     vpc,

@@ -40,6 +40,7 @@ export function gcpCreateCluster(
         machineType: machineType,
         diskSizeGb: 20,
         serviceAccount: sa.email,
+        tags: ['http-server'], //firewall tag, see network.ts
       },
       deletionProtection: deletionProtection,
       network: vpc.id,
