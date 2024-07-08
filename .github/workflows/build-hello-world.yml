@@ -79,7 +79,7 @@ jobs:
         uses: pulumi/actions@v5
         with:
           command: up
-          stack-name: kanastra-dev/dev
+          stack-name: kanastra/kanastra-dev/dev
           cloud-url: file://~
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
