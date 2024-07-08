@@ -90,3 +90,4 @@ jobs:
           pulumi up --yes
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+          HELLO_WORLD_TAG: ${GITHUB_REF#refs/tags/}
