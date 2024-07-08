@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import * as pulumi from '@pulumi/pulumi';
 import * as gcp from '@pulumi/gcp';
-import * as k8s from '@pulumi/kubernetes';
 import { gcpCreateCluster } from './gcp/cluster';
 import { gcpCreateNetwork } from './gcp/network';
 import { enableGcpApis } from './gcp/api';
@@ -13,6 +12,9 @@ import { gcpCreateK8sServices } from './gcp/deployment';
 export class Cluster {
   k8sCluster: pulumi.Output<gcp.container.Cluster>;
   k8sKubeConfig: pulumi.Output<string>;
+  k8sServiceName: pulumi.Output<string>;
+  k8sServiceIP: pulumi.Output<string>;
+  k8sDeploymentName: pulumi.Output<string>;
 
   constructor(name: string, cloudProvider: string) {
     // This switch-case is a placeholder for multi-cloud deployments
@@ -43,12 +45,22 @@ export class Cluster {
         // Create the cluster
         const { clusterOutput, clusterProvider, clusterKubeConfig } =
           gcpCreateCluster(name, vpc, vpcSubnet, clusterCreateSa);
-        this.k8sCluster = clusterOutput;
-        this.k8sKubeConfig = clusterKubeConfig;
 
         // Create deployment
-        gcpCreateK8sServices('hello-world', clusterProvider);
+        //const { serviceName, deploymentName, serviceIP } = gcpCreateK8sServices(
+        const { deploymentName, serviceName, serviceIP } = gcpCreateK8sServices(
+          'hello-world',
+          clusterProvider
+        );
+
+        // Pulumi exports
+        this.k8sCluster = pulumi.output(clusterOutput);
+        this.k8sKubeConfig = clusterKubeConfig;
+        this.k8sServiceName = serviceName;
+        this.k8sServiceIP = serviceIP;
+        this.k8sDeploymentName = deploymentName;
         break;
+
       // case 'aws':
       //   ...
       //   break;

@@ -27,7 +27,7 @@ export function gcpCreateCluster(
   vpcSubnet: gcp.compute.Subnetwork,
   sa: gcp.serviceaccount.Account
 ): {
-  clusterOutput: pulumi.Output<gcp.container.Cluster>;
+  clusterOutput: gcp.container.Cluster;
   clusterProvider: k8s.Provider;
   clusterKubeConfig: pulumi.Output<string>;
 } {
@@ -38,6 +38,7 @@ export function gcpCreateCluster(
       location: location,
       nodeConfig: {
         machineType: machineType,
+        diskSizeGb: 20,
         serviceAccount: sa.email,
       },
       deletionProtection: deletionProtection,
@@ -88,7 +89,7 @@ users:
   });
 
   return {
-    clusterOutput: pulumi.output(gcpCluster),
+    clusterOutput: gcpCluster,
     clusterProvider: k8sProvider,
     clusterKubeConfig: kubeconfig,
   };
