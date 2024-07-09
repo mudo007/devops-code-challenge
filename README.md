@@ -29,7 +29,7 @@ Os requisitos são os seguintes:
 
 - [OK - MVP_cicd_ci] Escolha uma ferramenta de CI/CD apropriada.
 - [OK - MVP_cicd_ci] Configure um pipeline de build de contêiner docker da aplicação node.
-- [WIP] Configure um pipeline de deploy contínuo para o aplicação node em contêiner
+- [OK - MVP_cicd_cd] Configure um pipeline de deploy contínuo para o aplicação node em contêiner
   - Deve conter pelo menos uma fase de testes e uma fase de deploy.
   - A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
   - Ele deve seguir o fluxo do GitHub flow para o deploy.
