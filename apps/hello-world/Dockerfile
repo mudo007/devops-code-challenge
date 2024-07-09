@@ -25,5 +25,8 @@ COPY --from=builder /app/node_modules ./node_modules
 # Expose the port the app runs on
 EXPOSE 3000
 
+# non-root user
+USER node
+
 # Define the command to run the app
 CMD [ "node", "dist/app.js" ]
