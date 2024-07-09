@@ -89,11 +89,8 @@ jobs:
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
-
-      - name: Install gke-gcloud-auth-plugin
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gke-gcloud-auth-plugin
+        with:
+          install_components: "gke-gcloud-auth-plugin"
 
       - name: Install dependencies
         run: |
