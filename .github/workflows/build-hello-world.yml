@@ -80,9 +80,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: npm install
+
       - name: pulumi up
         uses: pulumi/actions@v5
         with:
+          work-dir: pulumi
           command: up
           stack-name: kanastra-challenge-da/kanastra/dev
         env:
