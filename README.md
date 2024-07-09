@@ -7,10 +7,29 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 - Ferramentas escolhidas: Pulumi + Typescript, Github Actions, Prettier + ESLint
 - Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste (fiz só para o provisionamento do cluster, mas abnadonei)
 - Controle de atividades: Atualização do README mesmo
-- Tagging: Cada etapa (Provisionamento, CI/CD, Aplicação) terá uma tag correspondente MVP_prov, MVP_pipe, MVP_app, coisas bonus serão planejadas e adicionadas após o MVP estar pronto e estar sobrando prazo para a entrega
 - Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
 - Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
 - Estratégia de build e deploy: Como o projeto é solitário, todo o push para o github vai disparar um teste e build. A criação de tags vai disparar não só o test e build, mas também a criação de um container e push para o Artifact Registry, e deploy no cluster
+
+# Conclusão
+
+Todas as etapas foram concluídas com sucesso, incluindo os bonus sugeridos.
+
+## Coisas que eu gostaria de ter feito com mais tempo:
+
+- Refatorar o código: Comecei com uma estrutura modular que pudesse ser "cloud-agnóstica" e consegui modularizar a maior parte dos serviços, cada um no seu arquivo-fonte. Mas o construtor da classe "Cluster" acabou ficando uma tripa
+- Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
+- Conseguir usar TDD: Comecei empolgado, e consegui escrever um teste de criação do cluster, mas assim que fui adicionar a parte de networking nos testes, o chatGPT começou a testar se o mock foi criado, aí abandonei. Se for possível usar os testes no dia-a-dia do uso do pulumi, pode acelerar bastante o desenvolvimento, pois o ciclo de dar o "up", e ver se funcionou, é muito lento
+
+## Considerações finais
+
+Gostei bastante de ter participado do teste, foi uma oportunidade de aprender algo que eu estava querendo a muito tempo, mas não conseguia me organizar. Como minha experiência com terraform, helm, kubernetes foi muito breve e há um ano e meio atrás, foi muito bom re-aprender infra-as-code praticamente do 0. O uso do Pulumi foi sugestão do Jesse, que me indicou para a vaga. Como eu já tinha uma certa experiência com typescript, de fazer alguns bootcamps e praticar diariamente no primeiro trimestre do ano, achei bem gratificante poder usar na prática.
+
+Abaixo fica o roteiro original com as tags de cada etapa concluída, e em seguida, as instruções para rodar o projeto "from scratch"
+
+# Roteiro original do projeto com as etapas concluídas
+
+Cada tag na lista, exemplo: "MVP_prov_cluster", é mapeada para a tag correspondente no repositório
 
 ## Provisionamento
 
@@ -47,8 +66,8 @@ Os endpoints são os seguintes:
 ## Bonus
 
 - [OK - BONUS_ts_app] Conversão da aplicação para typescript
-- Adicionar pipelines para teste lint, e outras coisas a mais na aplicação
-- O deploy de kubernetes tiver interligado com ferramenta de infra as code
+- [OK - MVP_cicd_cd] Adicionar pipelines para teste lint, e outras coisas a mais na aplicação
+- [OK - MVP_cicd_cd] O deploy de kubernetes tiver interligado com ferramenta de infra as code
 
 ## Importante
 
