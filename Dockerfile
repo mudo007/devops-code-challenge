@@ -21,7 +21,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
     chmod 644 /etc/apt/sources.list.d/kubernetes.list  && \
     apt-get update && \
-    apt-get install -y google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin gh kubectl
+    apt-get install -y google-cloud-sdk google-cloud-sdk gke-gcloud-auth-plugin gh kubectl
 
 
 WORKDIR /app

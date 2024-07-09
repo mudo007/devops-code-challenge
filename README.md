@@ -1,3 +1,15 @@
+# TL; DR;
+
+Deu certo, gostei bastente, consegui fazer tudo!
+
+explicações em videos de 5 min, na ordem:
+
+- https://www.loom.com/share/c27bd2026df34bacb4a7988a7c2f2538?sid=58a92cee-f7e0-4e62-bc17-b3c9c618e6e8
+- https://www.loom.com/share/0c8ef30230e44564a789d11a7d988109?sid=f9edad26-0f9a-4b28-a169-61a29f8d20aa
+- https://www.loom.com/share/1513cd676185435db4fe9d15ceadad93?sid=8c977c5e-2012-4b32-82b1-b3dcd3d95072
+- https://www.loom.com/share/1d333d2dccc24641b95ae4d7f453964c?sid=43ec8909-d046-494a-945c-3d39313b78b9
+- https://www.loom.com/share/14d6d3ff25ed486798b6ea55ff983020?sid=9f40d27a-8fbf-4a3c-bf98-4d28c2dce468
+
 # Code Challenge DevOps Kanastra - Diogo Andrade
 
 Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução é:
