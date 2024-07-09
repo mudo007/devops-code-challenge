@@ -18,7 +18,7 @@ Todas as etapas foram concluídas com sucesso, incluindo os bonus sugeridos.
 ## Coisas que eu gostaria de ter feito com mais tempo:
 
 - Refatorar o código: Comecei com uma estrutura modular que pudesse ser "cloud-agnóstica" e consegui modularizar a maior parte dos serviços, cada um no seu arquivo-fonte. Mas o construtor da classe "Cluster" acabou ficando uma tripa
-- Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
+- Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários na XP, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
 - Conseguir usar TDD: Comecei empolgado, e consegui escrever um teste de criação do cluster, mas assim que fui adicionar a parte de networking nos testes, o chatGPT começou a testar se o mock foi criado, aí abandonei. Se for possível usar os testes no dia-a-dia do uso do pulumi, pode acelerar bastante o desenvolvimento, pois o ciclo de dar o "up", e ver se funcionou, é muito lento
 
 ## Considerações finais
