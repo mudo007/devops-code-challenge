@@ -2,13 +2,13 @@
 
 Deu certo, gostei bastente, consegui fazer tudo!
 
-explicações em videos de 5 min, na ordem:
+explicações em videos de 5 min cada:
 
-- https://www.loom.com/share/c27bd2026df34bacb4a7988a7c2f2538?sid=58a92cee-f7e0-4e62-bc17-b3c9c618e6e8
-- https://www.loom.com/share/0c8ef30230e44564a789d11a7d988109?sid=f9edad26-0f9a-4b28-a169-61a29f8d20aa
-- https://www.loom.com/share/1513cd676185435db4fe9d15ceadad93?sid=8c977c5e-2012-4b32-82b1-b3dcd3d95072
-- https://www.loom.com/share/1d333d2dccc24641b95ae4d7f453964c?sid=43ec8909-d046-494a-945c-3d39313b78b9
-- https://www.loom.com/share/14d6d3ff25ed486798b6ea55ff983020?sid=9f40d27a-8fbf-4a3c-bf98-4d28c2dce468
+- parte 1: https://www.loom.com/share/c27bd2026df34bacb4a7988a7c2f2538?sid=58a92cee-f7e0-4e62-bc17-b3c9c618e6e8
+- parte 2: https://www.loom.com/share/0c8ef30230e44564a789d11a7d988109?sid=f9edad26-0f9a-4b28-a169-61a29f8d20aa
+- parte 3: https://www.loom.com/share/1513cd676185435db4fe9d15ceadad93?sid=8c977c5e-2012-4b32-82b1-b3dcd3d95072
+- parte 4: https://www.loom.com/share/1d333d2dccc24641b95ae4d7f453964c?sid=43ec8909-d046-494a-945c-3d39313b78b9
+- parte 5: https://www.loom.com/share/14d6d3ff25ed486798b6ea55ff983020?sid=9f40d27a-8fbf-4a3c-bf98-4d28c2dce468
 
 # Code Challenge DevOps Kanastra - Diogo Andrade
 
@@ -17,7 +17,7 @@ Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução �
 - fiz um fork a partir do repo original
 - Cloud escolhida: primeiramente Google Cloud, e AWS reutilizando o projeto ao máximo, se der tempo
 - Ferramentas escolhidas: Pulumi + Typescript, Github Actions, Prettier + ESLint
-- Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste (fiz só para o provisionamento do cluster, mas abnadonei)
+- Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste (fiz só para o provisionamento do cluster, mas abandonei)
 - Controle de atividades: Atualização do README mesmo
 - Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
 - Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
@@ -32,7 +32,7 @@ Todas as etapas foram concluídas com sucesso, incluindo os bonus sugeridos.
 - Refatorar o código: Comecei com uma estrutura modular que pudesse ser "cloud-agnóstica" e consegui modularizar a maior parte dos serviços, cada um no seu arquivo-fonte. Mas o construtor da classe "Cluster" acabou ficando uma tripa
 - Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários na XP, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
 - Conseguir usar TDD: Comecei empolgado, e consegui escrever um teste de criação do cluster, mas assim que fui adicionar a parte de networking nos testes, o chatGPT começou a testar se o mock foi criado, aí abandonei. Se for possível usar os testes no dia-a-dia do uso do pulumi, pode acelerar bastante o desenvolvimento, pois o ciclo de dar o "up", e ver se funcionou, é muito lento
-- Gostaria de adicionar mais coisas que sempre convém ter em projetos profissionais, como prometheus para métricas e health checks, dashboard de grafana com alrtas e notificações para incidentes, certificado para https com bot de letsencrypt, etc.
+- Gostaria de adicionar mais coisas que sempre convém ter em projetos profissionais, como prometheus para métricas e health checks, dashboard de grafana com alertas e notificações para incidentes, certificado para https com bot de letsencrypt, etc.
 
 ## Considerações finais
 
@@ -192,7 +192,7 @@ echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --re
 
 ## Configurando a piepline para seu projeto
 
-Infelizmente, não cosnegui utilizar o nome da organização no nome da stack do github actions, então você deverá alterar a linha 87 do arquivo .github/build-hello-world.yml e mudar "kanastra-challenge-da" para o nomed a sua organização
+Infelizmente, não cosnegui utilizar o nome da organização no nome da stack do github actions, então você deverá alterar a linha 107 do arquivo .github/build-hello-world.yml e mudar "kanastra-challenge-da" para o nomed a sua organização
 
 ## Gerando tags para dar trigger no deploy automático
 
