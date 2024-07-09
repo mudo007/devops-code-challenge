@@ -123,14 +123,14 @@ npm install
 pulumi login
 ```
 
-- Crie uma organização, no para este projeto, eu criei a organização "kanastra-challenge-da", mas você pode usar uma existente
+- Crie uma organização, no para este projeto, eu criei a organização "kanastra-challenge-da", mas você pode usar uma existente, se preferir
 - Configure a organização como padrão para o projeto
 
 ```
 pulumi org set-default kanastra-challenge-da
 ```
 
-- Gere um access token (https://app.pulumi.com/<username>>/settings/tokens)e cole no terminal, caso esteja executando dentro do container, ou aperte enter para continuar pelo browser
+- Gere um access token (https://app.pulumi.com/seu_uername/settings/tokens)e cole no terminal, caso esteja executando dentro do container, ou aperte enter para continuar pelo browser
 - Inicialize o prokjeto com o comando
 
 ```
@@ -153,8 +153,7 @@ Pode ser que o deployment fique "preso" na etapa
 kubernetes:apps/v1:Deployment            hello-world-deployment
 ```
 
-Porque ainda não há container de aplicação disponível
-Esta etapa demora por causa da configuração do cluster. você pode dar um CTRL+C sem problemas
+Porque ainda não há container de aplicação disponível, você pode dar um CTRL+C sem problemas.
 
 ## Adicionando chaves json secretas ao github actions
 
@@ -182,29 +181,13 @@ echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --re
 
 Infelizmente, não cosnegui utilizar o nome da organização no nome da stack do github actions, então você deverá alterar a linha 87 do arquivo .github/build-hello-world.yml e mudar "kanastra-challenge-da" para o nomed a sua organização
 
-## Gerando tags para dar trigger nas builds
+## Gerando tags para dar trigger no deploy automático
 
-A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e - dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório.
-
-```
-git tag -a dummie_tag -m "Tag dummie para disparar build and push"
-pit push --tags
-```
-
-Aguarde a pipeline do github rodar, e rode denovo o comando para subir a stack:
-
-```
-npm run pulumi:dev-up
-
-```
+Se você criar uma nova tag, e dar push, a nova imagem será "deployada" no cluster. Pode-se verificar o sucesso da operação Acessando o "Revision History" e verificando que uma nova versão foi criada
 
 ## Verificando que tudo funcionu:
 
-Apenas Cole no browser o endereço de ip "ServiceIP" gerado na lista de Outputs, e você deverá ver um "hello world"
-
-## Testando o deploy automático
-
-Se você criar uma nova tag, e dar push, a nova imagem será "deployada" no cluster. Pode-se verificar o sucesso da operação Acessando o "Revision History" e verificando que uma nova versão foi criada
+Apenas Cole no browser o endereço de ip "ServiceIP" gerado na lista de Outputs da pipeline do github actions, e você deverá ver um "hello world"
 
 # Destruindo tudo:
 
