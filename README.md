@@ -153,16 +153,19 @@ gcloud secrets versions access latest --secret=cluster-create-secret-id | gh sec
 
 ```
 
-Para o token de acesso do Pulumi e o nome da organização (criada no processo de login), não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
+Para o token de acesso do Pulumi, não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
 
 ```
 echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
-echo "kanastra-challenge-da" | gh secret set PULUMI_ORG --repo mudo007/devops-code-challenge
 ```
+
+## Configurando a piepline para seu projeto
+
+Infelizmente, não cosnegui utilizar o nome da organização no nome da stack do github actions, então você deverá alterar a linha 87 do arquivo .github/build-hello-world.yml e mudar "kanastra-challenge-da" para o nomed a sua organização
 
 ## Gerando tags para dar trigger nas builds
 
-A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório.
+A pipeline está programada para gerar uma imagem e dar push no artifact registry sempre quando uma tag é criada, então basta criar uma tag qualquer e - dar push para isso acontecer. Você pode verificar esta etapa no seu painel de actions do github do seu repositório.
 
 ```
 git tag -a dummie_tag -m "Tag dummie para disparar build and push"
