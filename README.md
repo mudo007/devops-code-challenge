@@ -20,6 +20,7 @@ Todas as etapas foram concluídas com sucesso, incluindo os bonus sugeridos.
 - Refatorar o código: Comecei com uma estrutura modular que pudesse ser "cloud-agnóstica" e consegui modularizar a maior parte dos serviços, cada um no seu arquivo-fonte. Mas o construtor da classe "Cluster" acabou ficando uma tripa
 - Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários na XP, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
 - Conseguir usar TDD: Comecei empolgado, e consegui escrever um teste de criação do cluster, mas assim que fui adicionar a parte de networking nos testes, o chatGPT começou a testar se o mock foi criado, aí abandonei. Se for possível usar os testes no dia-a-dia do uso do pulumi, pode acelerar bastante o desenvolvimento, pois o ciclo de dar o "up", e ver se funcionou, é muito lento
+- Gostaria de adicionar mais coisas que sempre convém ter em projetos profissionais, como prometheus para métricas e health checks, dashboard de grafana com alrtas e notificações para incidentes, certificado para https com bot de letsencrypt, etc.
 
 ## Considerações finais
 
@@ -78,7 +79,7 @@ código de provisionamento escolhido e disponibilize num repositório git, que n
 
 ## [opcional] Instruções para uso do ambiente de desenvolvimento docker
 
-Se não quiser instalar o client do gcp,azure,etc ou o node na sua máquina, basta executar o container da raiz:
+Se não quiser instalar o client do gcp,azure,etc ou o node na sua máquina, basta executar o container de desivolvimento a partir da raiz do projeto:
 
 ```
 docker volume create CONFIG_DATA
@@ -92,7 +93,7 @@ Os volumes CONFIG_DATA, KUBE_DATA e PULUMI_DATA guardarão as credenciais para q
 
 ## Login no GCP por dentro do container
 
-Para este projeto, criei uma conta grátis no GCP e criei o projeto "kanastra-dev". Esses foraom os passos para autenticação dentro do container
+Para este projeto, criei uma conta grátis no GCP e criei o projeto "kanastra-dev". Esses foram os passos para autenticação dentro do container
 
 ```
 gcloud auth login
@@ -106,7 +107,7 @@ gcloud auth application-default set-quota-project kanastra-dev
 gcloud config set project kanastra-dev
 ```
 
-Todas as API's necessárias são habiliadas via código.
+Todas as API's necessárias são habilitadas via código.
 
 ## Inicializações do Pulumi
 
