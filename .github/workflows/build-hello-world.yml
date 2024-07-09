@@ -84,9 +84,8 @@ jobs:
         uses: pulumi/actions@v5
         with:
           command: up
-          stack-name: $PULUMI_ORG/kanastra-dev/dev
+          stack-name: kanastra-challenge-da/kanastra-dev/dev
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           HELLO_WORLD_TAG: ${GITHUB_REF#refs/tags/}
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          PULUMI_ORG: ${{ secrets.PULUMI_ORG }}
