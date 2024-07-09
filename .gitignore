@@ -121,6 +121,7 @@ yarn.lock
 # but not the app lock file, it is needed
 # for caching on the build pipeline
 !apps/hello-world/package-lock.json
+**/gke_gcloud_auth_plugin_cache
 
 # Ignore runtime files
 .pulumi/
