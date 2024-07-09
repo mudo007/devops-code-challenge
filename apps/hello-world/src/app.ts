@@ -6,7 +6,7 @@ const port = process.env.NODE_PORT || 3000;
 
 app.get('/', (req: Request, res: Response) => res.send('Hello World!'));
 
-app.get('/health/check', (req: Request, res: Response) => res.send('OK'));
+app.get('/health/check', (req: Request, res: Response) => res.send('OK V2'));
 
 // Endpoint bobo para dar trigger no pipeline de CI/CD
 app.get('/chuck-norris', (req: Request, res: Response) =>
