@@ -1,97 +1,83 @@
-# TL; DR;
-
-Deu certo, gostei bastente, consegui fazer tudo!
-
-explicações em videos de 5 min cada:
-
-- [parte 1: Revisão do Projeto de Deploy e Pipeline](https://www.loom.com/share/c27bd2026df34bacb4a7988a7c2f2538?sid=58a92cee-f7e0-4e62-bc17-b3c9c618e6e8)
-- [parte 2: Desenvolvimento de Projeto de Implantação de Aplicativo](https://www.loom.com/share/0c8ef30230e44564a789d11a7d988109?sid=f9edad26-0f9a-4b28-a169-61a29f8d20aa)
-- [parte 3: Configuração e Deploy de Aplicações com Pulumi](https://www.loom.com/share/1513cd676185435db4fe9d15ceadad93?sid=8c977c5e-2012-4b32-82b1-b3dcd3d95072)
-- [parte 4: Passo-a-passo para executar do inicio](https://www.loom.com/share/1d333d2dccc24641b95ae4d7f453964c?sid=43ec8909-d046-494a-945c-3d39313b78b9)
-- [parte 5: Conclusão e lições aprendidas](https://www.loom.com/share/14d6d3ff25ed486798b6ea55ff983020?sid=9f40d27a-8fbf-4a3c-bf98-4d28c2dce468)
-
 # Code Challenge DevOps Kanastra - Diogo Andrade
 
-Este é um desafio para a vaga de DevopsLead. A minha estratégia de solução é:
+This is a challenge for the DevOps Lead position. My solution strategy is:
 
-- fiz um fork a partir do repo original
-- Cloud escolhida: primeiramente Google Cloud, e AWS reutilizando o projeto ao máximo, se der tempo
-- Ferramentas escolhidas: Pulumi + Typescript, Github Actions, Prettier + ESLint
-- Metodologia de design: Todo código typescript será feito com TDD usando jest como framework de teste (fiz só para o provisionamento do cluster, mas abandonei)
-- Controle de atividades: Atualização do README mesmo
-- Organização: Cada aspecto da solução tem sua pasta separada, com separação de manifestos e configurações de ambientes de dev e prod quando pertinente. Não vou criar configurações extra para staging, pois este deve ser a simulação mais fiel do ambiente de produção, apenas com segredos, tokens, usuarios, etc diferentes
-- Ambiente de desenvolvimento: o Dockerfile na raiz permite testar o projeto sem necessidade de instalar nada localmente.
-- Estratégia de build e deploy: Como o projeto é solitário, todo o push para o github vai disparar um teste e build. A criação de tags vai disparar não só o test e build, mas também a criação de um container e push para o Artifact Registry, e deploy no cluster
+- I forked from the original repo
+- Chosen Cloud: primarily Google Cloud, and AWS reusing the project as much as possible if time allows
+- Chosen tools: Pulumi + TypeScript, GitHub Actions, Prettier + ESLint
+- Design methodology: All TypeScript code will be developed using TDD with Jest as the testing framework (I only did this for cluster provisioning but then abandoned it)
+- Activity tracking: Updated README only
+- Organization: Each aspect of the solution has its own separate folder, with separation of manifests and configurations for dev and prod environments when relevant. I will not create extra configurations for staging, as this should be the most faithful simulation of the production environment, just with different secrets, tokens, users, etc.
+- Development environment: The Dockerfile at the root allows testing the project without needing to install anything locally.
+- Build and deploy strategy: Since the project is standalone, every push to GitHub will trigger a test and build. Tag creation will trigger not only test and build but also container creation, push to Artifact Registry, and deployment to the cluster.
 
-# Conclusão
+# Conclusion
 
-Todas as etapas foram concluídas com sucesso, incluindo os bonus sugeridos.
+All stages were successfully completed, including the suggested bonuses.
 
-## Coisas que eu gostaria de ter feito com mais tempo:
+## Things I would have liked to do with more time:
 
-- Refatorar o código: Comecei com uma estrutura modular que pudesse ser "cloud-agnóstica" e consegui modularizar a maior parte dos serviços, cada um no seu arquivo-fonte. Mas o construtor da classe "Cluster" acabou ficando uma tripa
-- Adicionar features na aplicação, pois tenho muita experiência como DEV, e daria para fazer algo no contexto do negocio da empresa. Por exemplo, quanddo vou fazer aporte mensal nos meus fundos imobiliários na XP, perco um tempão "passando roupa" em planilha para calcular quanto aporto em cada um para manter a proporção da minha estratégia. Pensei em fazer um app simples com dados mock mesmo que calcula isso automaticamente
-- Conseguir usar TDD: Comecei empolgado, e consegui escrever um teste de criação do cluster, mas assim que fui adicionar a parte de networking nos testes, o chatGPT começou a testar se o mock foi criado, aí abandonei. Se for possível usar os testes no dia-a-dia do uso do pulumi, pode acelerar bastante o desenvolvimento, pois o ciclo de dar o "up", e ver se funcionou, é muito lento
-- Gostaria de adicionar mais coisas que sempre convém ter em projetos profissionais, como prometheus para métricas e health checks, dashboard de grafana com alertas e notificações para incidentes, certificado para https com bot de letsencrypt, etc.
+- Refactor the code: I started with a modular structure that could be "cloud-agnostic" and managed to modularize most of the services, each in its source file. However, the constructor of the "Cluster" class ended up being quite lengthy.
+- Add features to the application, as I have a lot of experience as a DEV, and I could create something in the company's business context. For example, when I make my monthly contributions to my real estate funds at XP, I waste a lot of time "ironing out" spreadsheets to calculate how much to contribute to each one to maintain the proportion of my strategy. I thought of making a simple app with mock data that calculates this automatically.
+- Successfully use TDD: I started enthusiastically and managed to write a cluster creation test, but as soon as I added the networking part to the tests, ChatGPT started testing if the mock was created, so I abandoned it. If it's possible to use tests daily with Pulumi, it can speed up development a lot because the cycle of running `up` and seeing if it worked is very slow.
+- I would like to add more things that are always convenient in professional projects, such as Prometheus for metrics and health checks, a Grafana dashboard with alerts and notifications for incidents, an HTTPS certificate with Let's Encrypt bot, etc.
 
-## Considerações finais
+## Final Considerations
 
-Gostei bastante de ter participado do teste, foi uma oportunidade de aprender algo que eu estava querendo a muito tempo, mas não conseguia me organizar. Como minha experiência com terraform, helm, kubernetes foi muito breve e há um ano e meio atrás, foi muito bom re-aprender infra-as-code praticamente do 0. O uso do Pulumi foi sugestão do Jesse, que me indicou para a vaga. Como eu já tinha uma certa experiência com typescript, de fazer alguns bootcamps e praticar diariamente no primeiro trimestre do ano, achei bem gratificante poder usar na prática.
+I really enjoyed participating in the test; it was an opportunity to learn something I had been wanting to do for a long time but couldn't organize myself to do. Since my experience with Terraform, Helm, and Kubernetes was very brief and a year and a half ago, it was great to relearn infra-as-code almost from scratch. Using Pulumi was Jesse's suggestion, who referred me to the position. As I already had some experience with TypeScript, from doing some boot camps and practicing daily in the first quarter of the year, it was gratifying to use it in practice.
 
-Abaixo fica o roteiro original com as tags de cada etapa concluída, e em seguida, as instruções para rodar o projeto "from scratch"
+Below is the original script with the tags of each completed step, followed by instructions to run the project "from scratch."
 
-# Roteiro original do projeto com as etapas concluídas
+# Original Project Script with Completed Steps
 
-Cada tag na lista, exemplo: "MVP_prov_cluster", é mapeada para a tag correspondente no repositório
+Each tag in the list, e.g., "MVP_prov_cluster," maps to the corresponding tag in the repository.
 
-## Provisionamento
+## Provisioning
 
-Você precisa nos mostrar uma infraestrutura provisionada usando Infra-as-code (terraform, pulumi, ansible, etc),
-que deve conter:
+You need to show us an infrastructure provisioned using Infrastructure-as-Code (Terraform, Pulumi, Ansible, etc.), which should contain:
 
-- [OK - MVP_prov_cluster] Configure um cluster k8s em núvem (EKS, AKS ou GKE)
-- [OK - MVP_prov_network] Configure a rede e suas subnets.
-- [OK - MVP_prov_IAM] Configure a segurança usando o princípio de privilégio mínimo.
-- [OK - MVP_prov_deploy_sa] Use uma IAM role para dar as permissões no cluster.
-  Use sempre as melhores práticas para provisionar os recursos da núvem que escolher.
+- [OK - MVP_prov_cluster] Set up a Kubernetes cluster in the cloud (EKS, AKS, or GKE)
+- [OK - MVP_prov_network] Set up the network and its subnets.
+- [OK - MVP_prov_IAM] Set up security using the principle of least privilege.
+- [OK - MVP_prov_deploy_sa] Use an IAM role to grant permissions in the cluster.
+  Always use best practices for provisioning resources in the chosen cloud.
 
 ## CI/CD
 
-Os requisitos são os seguintes:
+The requirements are as follows:
 
-- [OK - MVP_cicd_ci] Escolha uma ferramenta de CI/CD apropriada.
-- [OK - MVP_cicd_ci] Configure um pipeline de build de contêiner docker da aplicação node.
-- [OK - MVP_cicd_cd] Configure um pipeline de deploy contínuo para o aplicação node em contêiner
-  - Deve conter pelo menos uma fase de testes e uma fase de deploy.
-  - A fase de deploy só deve ser executada se a fase de testes for bem-sucedida.
-  - Ele deve seguir o fluxo do GitHub flow para o deploy.
-  - O deploy deve ser feito no cluster k8s provisionado no Code Challenge.
+- [OK - MVP_cicd_ci] Choose an appropriate CI/CD tool.
+- [OK - MVP_cicd_ci] Set up a pipeline for building the application's Docker container.
+- [OK - MVP_cicd_cd] Set up a continuous deployment pipeline for the Node application in the container.
+  - It should have at least a test phase and a deploy phase.
+  - The deploy phase should only be executed if the test phase is successful.
+  - It should follow the GitHub flow for deployment.
+  - The deployment should be done in the Kubernetes cluster provisioned in the Code Challenge.
 
-## Aplicação
+## Application
 
-A aplicação node é super simples, apenas um express que expõe webserver HTTP na port 3000
+The Node application is super simple, just an Express server exposing an HTTP web server on port 3000.
 
-Os endpoints são os seguintes:
+The endpoints are:
 
 - `/`
 - `/health/check`
 
 ## Bonus
 
-- [OK - BONUS_ts_app] Conversão da aplicação para typescript
-- [OK - MVP_cicd_cd] Adicionar pipelines para teste lint, e outras coisas a mais na aplicação
-- [OK - MVP_cicd_cd] O deploy de kubernetes tiver interligado com ferramenta de infra as code
+- [OK - BONUS_ts_app] Conversion of the application to TypeScript
+- [OK - MVP_cicd_cd] Add pipelines for lint testing and other things to the application
+- [OK - MVP_cicd_cd] Integrate the Kubernetes deployment with the infra-as-code tool
 
-## Importante
+## Important
 
-Nós entendemos se você não tiver uma conta em uma dessas núvens, então faça o seu melhor com
-código de provisionamento escolhido e disponibilize num repositório git, que nós testaremos.
+We understand if you don't have an account in one of these clouds, so do your best with the chosen provisioning code and make it available in a git repository, which we will test.
 
-# Passo-a-passo para executar o projeto do 0
+# Step-by-Step Guide to Running the Project from Scratch
 
-## [opcional] Instruções para uso do ambiente de desenvolvimento docker
+## [Optional] Instructions for Using the Docker Development Environment
 
-Se não quiser instalar o client do gcp,azure,etc ou o node na sua máquina, basta executar o container de desivolvimento a partir da raiz do projeto:
+If you don't want to install the GCP, Azure, etc., client or Node on your machine, simply run the development container from the project's root:
 
 ```
 docker volume create CONFIG_DATA
@@ -101,112 +87,106 @@ docker compose up -d
 docker exec -it kanastra-dev bash
 ```
 
-Os volumes CONFIG_DATA, KUBE_DATA e PULUMI_DATA guardarão as credenciais para que não seja necessário realizar o login via CLI toda vez que o container for finalizado. Recomenda-se remover os volumes explicitamente ao final do uso.
+The volumes CONFIG_DATA, KUBE_DATA, and PULUMI_DATA will store credentials so you don't need to log in via CLI every time the container is stopped. It is recommended to remove the volumes explicitly after use.
 
-## Login no GCP por dentro do container
+## Login to GCP Inside the Container
 
-Para este projeto, criei uma conta grátis no GCP e criei o projeto "kanastra-dev". Esses foram os passos para autenticação dentro do container
+For this project, I created a free account on GCP and created the "kanastra-dev" project. These were the steps to authenticate inside the container:
 
 ```
 gcloud auth login
 gcloud auth application-default login
 ```
 
-Em cada um dos comandos, você deve copiar o link no browser para gerar um código e copiá-lo de volta no terminal do container. Depois configurar a quota e setar o projeto padrão.
+In each command, you must copy the link in the browser to generate a code and paste it back into the container terminal. Then configure the quota and set the default project.
 
 ```
 gcloud auth application-default set-quota-project kanastra-dev
 gcloud config set project kanastra-dev
 ```
 
-Todas as API's necessárias são habilitadas via código.
+All necessary APIs are enabled via code.
 
-## Inicializações do Pulumi
+## Pulumi Initialization
 
-- Todos os comandos daqui pra frente devem ser realizados a partir da pasta ./pulumi
+- All commands from now on should be run from the `./pulumi` folder.
 
 ```
 cd pulumi
 ```
 
-- Crie sua conta em https://app.pulumi.com, se não o tiver feito ainda`
+- Create your account at https://app.pulumi.com if you haven't done so already.
 
 ```
 npm install
 pulumi login
 ```
 
-- Crie uma organização, no para este projeto, eu criei a organização "kanastra-challenge-da", mas você pode usar uma existente, se preferir
-- Configure a organização como padrão para o projeto
+- Create an organization; for this project, I created the "kanastra-challenge-da" organization, but you can use an existing one if you prefer.
+- Set the organization as the default for the project.
 
 ```
 pulumi org set-default kanastra-challenge-da
 ```
 
-- Gere um access token (https://app.pulumi.com/seu_uername/settings/tokens)e cole no terminal, caso esteja executando dentro do container, ou aperte enter para continuar pelo browser
-- Inicialize o prokjeto com o comando
+- Generate an access token (https://app.pulumi.com/your_username/settings/tokens) and paste it into the terminal if running inside the container, or press enter to continue via browser.
+- Initialize the project with the command:
 
 ```
 pulumi stack init dev
-
 ```
 
-## Provisionando toda a infra:
+## Provisioning the Entire Infrastructure:
 
-Rode o comando
+Run the command:
 
 ```
 npm run pulumi:dev-up
-
 ```
 
-Pode ser que o deployment fique "preso" na etapa
+The deployment might get "stuck" at the step:
 
 ```
 kubernetes:apps/v1:Deployment            hello-world-deployment
 ```
 
-Porque ainda não há container de aplicação disponível, você pode dar um CTRL+C sem problemas.
+Because there is no application container available yet, you can safely press CTRL+C.
 
-## Adicionando chaves json secretas ao github actions
+## Adding JSON Secret Keys to GitHub Actions
 
-As chaves são necessárias para que as automações do github actions funcionem.
+The keys are necessary for GitHub Actions automation to work.
 
-Você pode abrir o painel do gcp, navegar pelo secrets manager, copiar o json do "cluster-deploy-secret-id" e o "cluster-create-secret-id" e colar em um novo "repository Secrets" do github (Github.com -> repositorio -> settings do repo -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY / GOOGLE_CREDENTIALS)
+You can open the GCP panel, navigate to the Secrets Manager, copy the JSON from "cluster-deploy-secret-id" and "cluster-create-secret-id," and paste it into a new "Repository Secret" in GitHub (Github.com -> repository -> repo settings -> Secrets and Variables -> Repository secrets -> New repository secret -> GAR_JSON_KEY / GOOGLE_CREDENTIALS).
 
-Entretanto, para que, em momento algum os secrets sejam expostos, seja no terminal, ou no bash history, ou no file system que seja, recomenda-se redirecionar a saída do comando que lê o secret para a entrada do comando que grava no github actions. Ajuste o parâmetro "--repo mudo007/devops-code-challenge" para o seu, caso faça um fork a partir deste. Deve-se autenticar primeiramente na cli do github com "gh auth login", e seguir o rocesso de autenticação desejado.
-Depois deve-se gerear um access token [(beta) ](https://github.com/settings/tokens?type=beta) com Repository permissions de apenas "read/write" para Secrets, e "read" em Metadata. O comando é:
+However, to avoid exposing the secrets at any point (terminal, bash history, filesystem, etc.), it is recommended to redirect the output of the command that reads the secret to the command that saves it in GitHub Actions. Adjust the parameter `--repo mudo007/devops-code-challenge` to yours if you fork from this one. First, authenticate in GitHub CLI with `gh auth login`, and follow the desired authentication process. Then generate an access token [(beta)](https://github.com/settings/tokens?type=beta) with Repository permissions of only "read/write" for Secrets and "read" in Metadata. The command is:
 
 ```
-
 gcloud secrets versions access latest --secret=cluster-deploy-secret-id | gh secret set GAR_JSON_KEY --repo mudo007/devops-code-challenge
 gcloud secrets versions access latest --secret=cluster-create-secret-id | gh secret set GOOGLE_CREDENTIALS --repo mudo007/devops-code-challenge
-
 ```
 
-Para o token de acesso do Pulumi, não identifiquei um método para ler o valor do token a partir de uma cli, então, ele deve ser colado no terminal mesmo, ou via painel do github
+For the Pulumi access token, I couldn't identify a method to read the token value from a CLI, so it must be pasted into the terminal or via GitHub panel.
 
 ```
-echo "seu_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
+echo "your_personal_access_token_pulumi" | gh secret set PULUMI_ACCESS_TOKEN --repo mudo007/devops-code-challenge
 ```
 
-## Configurando a piepline para seu projeto
+## Configuring the Pipeline for Your Project
 
-Infelizmente, não cosnegui utilizar o nome da organização no nome da stack do github actions, então você deverá alterar a linha 107 do arquivo .github/build-hello-world.yml e mudar "kanastra-challenge-da" para o nomed a sua organização
+Unfortunately, I was unable to use the organization name in the stack name of GitHub Actions, so you need to change line 107 of the `.github/build-hello-world.yml` file and change "kanastra-challenge-da" to the name of your organization.
 
-## Gerando tags para dar trigger no deploy automático
+## Generating Tags to Trigger Automatic Deployment
 
-Se você criar uma nova tag, e dar push, a nova imagem será "deployada" no cluster. Pode-se verificar o sucesso da operação Acessando o "Revision History" e verificando que uma nova versão foi criada
+If you create a new tag and push it, the new image will be deployed to the cluster. You can verify the success of the operation by accessing the "Revision History" and checking that a new version has been created.
 
-## Verificando que tudo funcionu:
+## Verifying Everything Worked:
 
-Apenas Cole no browser o endereço de ip "ServiceIP" gerado na lista de Outputs da pipeline do github actions, e você deverá ver um "hello world"
+Just paste the IP address "ServiceIP" generated in the GitHub Actions pipeline outputs into the browser, and you should see a "hello world."
 
-# Destruindo tudo:
+# Destroying Everything:
 
-Após terminados os testes com o projeto, você pode limpar tudo com o comando:
+After completing the tests with the project, you can clean everything up with the command:
 
 ```
 npm run pulumi:dev-destroy
-
 ```
